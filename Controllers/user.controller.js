@@ -1,7 +1,7 @@
 const User = require("../Models/user")
-const unserController = {}
+const userController = {}
 
-unserController.saveUser = async(userName, sid) => {
+userController.saveUser = async(userName, sid) => {
     //check the exist user info
     let user = await User.findOne({name : userName });
 
@@ -22,10 +22,20 @@ unserController.saveUser = async(userName, sid) => {
     return user;
 };
 
-unserController.checkUser = async(sid) => {
+userController.checkUser = async(sid) => {
     const user = await User.findOne({token:sid})
     if(!user) throw new Error ("user not found")
     return user;
 }
 
-module.exports = unserController
+userController.updateRoom = async (socketId, roomName) => {
+    const user = await User.findOne({ token: socketId });
+    if (!user) throw new Error("User not found");
+
+    user.room = roomName;
+    await user.save();
+
+    return user;
+};
+
+module.exports = userController

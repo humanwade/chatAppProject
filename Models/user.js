@@ -11,7 +11,10 @@ const userSchema = new mongoose.Schema({
     },
     online: {
         type: Boolean,
-        dafualt: false,
+        default: false, 
+    },
+    room: {
+        type: String, 
     }
 });
 

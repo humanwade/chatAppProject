@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import "./MessageContainer.css";
 import { Container } from "@mui/system";
 
 const MessageContainer = ({ messageList, user }) => {
+  const bottomRef = useRef(); 
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messageList]);
+
   return (
-    <div>
+    <div className="message-wrapper">
       {messageList.map((message, index) => {
         return (
           <Container key={message._id} className="message-container">
@@ -25,7 +31,7 @@ const MessageContainer = ({ messageList, user }) => {
                     (index === 0
                       ? { visibility: "visible" }
                       : messageList[index - 1].user.name === user.name) ||
-                    messageList[index - 1].user.name === "system"
+                      messageList[index - 1].user.name === "system"
                       ? { visibility: "visible" }
                       : { visibility: "hidden" }
                   }
@@ -36,6 +42,8 @@ const MessageContainer = ({ messageList, user }) => {
           </Container>
         );
       })}
+
+      <div ref={bottomRef} /> 
     </div>
   );
 };
