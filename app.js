@@ -17,12 +17,15 @@ mongoose
   .then(() => console.log("connected to database"))
   .catch((err) => console.error("Mongo connect error:", err));
 
-const viteDist = path.join(__dirname, "chatapp-client", "dist");   
-const craBuild = path.join(__dirname, "chatapp-client", "build"); 
+const viteDist = path.join(__dirname, "chatapp-client", "dist");
+const craBuild = path.join(__dirname, "chatapp-client", "build");
 
 const staticRoot = require("fs").existsSync(viteDist) ? viteDist : craBuild;
 
 app.use(express.static(staticRoot));
 
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(staticRoot, "index.html"));
+});
 
 module.exports = app;
