@@ -9,10 +9,10 @@ require("./Models/room");
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
-    cors: {
-        origin: "http://132.145.108.97:3001", 
-        methods: ["GET", "POST"]
-    }
+  cors: {
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST"]
+  }
 });
 
 initRooms();

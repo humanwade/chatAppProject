@@ -1,3 +1,5 @@
-import {io} from "socket.io-client"
-const socket = io("http://132.145.108.97:5001");
+import { io } from "socket.io-client";
+
+const socket = io(import.meta.env.VITE_API_URL);
+
 export default socket;
