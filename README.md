@@ -96,49 +96,49 @@ Made this project using **React**, **Socket.IO**, and **Node.js**.
 ### 1. 🔐 Login Screen  
 User is prompted to enter a nickname upon launching the app.
 
-![Login](./screenshots/1_login.png)
+![Login](./screenshots/1.png)
 
 ---
 
 ### 2. 📋 Chat Room List  
 Users can see and select available chat rooms.
 
-![Room List](./screenshots/2_room_list.png)
+![Room List](./screenshots/2.png)
 
 ---
 
 ### 3. 🏠 Chat Room Entry  
 On entering a room, the chat interface appears.
 
-![Chat Entry](./screenshots/3_enter_room.png)
+![Chat Entry](./screenshots/3.png)
 
 ---
 
 ### 4. 🧑 New User Joined  
 A system message is displayed when a new user joins the room.
 
-![User Joined](./screenshots/4_user_joined.png)
+![User Joined](./screenshots/4.png)
 
 ---
 
 ### 5. 🟡 Your Messages (Yellow)  
 Messages sent by the current user appear in yellow.
 
-![My Message](./screenshots/5_my_message.png)
+![My Message](./screenshots/5.png)
 
 ---
 
 ### 6. ⚪ Other User Messages (Grey)  
 Messages sent by others appear in a white/grey bubble.
 
-![Other Message](./screenshots/6_other_message.png)
+![Other Message](./screenshots/6.png)
 
 ---
 
 ### 7. 🚪 User Left Notification  
 A system message is shown when someone leaves the room.
 
-![User Left](./screenshots/7_user_left.png)
+![User Left](./screenshots/7.png)
 
 
 
