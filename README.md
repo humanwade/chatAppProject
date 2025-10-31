@@ -5,7 +5,7 @@ Users can join chat rooms, send and receive messages instantly, and view other p
 
 ## 🌐 Live Demo
 
-👉 [Click here to join chatting now](http://132.145.108.97:5001/)
+👉 [http:wadechat.wadeverse.net](http:wadechat.wadeverse.net) 
 
 ---
 
