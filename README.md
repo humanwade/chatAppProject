@@ -1,40 +1,42 @@
 # 💬 Real-time Chat Application
 
-This is a real-time chat application built with **React** and **Socket.IO**.  
-Users can join chat rooms, send and receive messages instantly, and view other participants' messages in real time.
+## 🧩 Overview
+This is a real-time chat application built with **React**, **Node.js**, and **Socket.IO**.  
+Users can join chat rooms, send and receive messages instantly, and see other participants' messages in real time.
+
+---
 
 ## 🌐 Live Demo
+👉 **[wadechat.wadeverse.net](https://wadechat.wadeverse.net)**  
 
-👉 [http:wadechat.wadeverse.net](http:wadechat.wadeverse.net) 
+> 🖥️ Hosted on **Raspberry Pi 5 (Ubuntu 24.04)** with **PM2** and **Cloudflare Tunnel** for secure public access.
 
 ---
 
 ## 🚀 Features
-
-- 🧑 User login via simple nickname prompt
-- 🗂 Chat room list display (fetched from server)
-- 🏠 Join specific chat rooms via unique URL (`/room/:id`)
-- 💬 Real-time messaging using Socket.IO
-- 👥 Distinguish between system messages, own messages, and others' messages
-- 🖼 Simple UI built with MUI and custom CSS
+- 🧑 User login via simple nickname prompt  
+- 🗂 Chat room list display (fetched dynamically from the server)  
+- 🏠 Join specific chat rooms via unique URL (`/room/:id`)  
+- 💬 Real-time messaging powered by **Socket.IO**  
+- 👥 Distinguish between system messages, own messages, and others' messages  
+- 🖼️ Simple and clean UI built with **MUI** and custom CSS  
 
 ---
 
-## 🛠 Tech Stack
+## 🛠️ Tech Stack
 
-| Layer           | Technology                      |
-|----------------|----------------------------------|
-| Frontend        | React, React Router, MUI        |
-| Realtime Comm.  | Socket.IO                       |
-| Backend         | Node.js + Express               |
-| State Management| React Hooks (`useState`, `useEffect`) |
-| Styling         | CSS + MUI Base                  |
+| Layer | Technologies |
+|--------|---------------|
+| **Frontend** | React, React Router, MUI |
+| **Realtime Communication** | Socket.IO |
+| **Backend** | Node.js, Express |
+| **State Management** | React Hooks (`useState`, `useEffect`) |
+| **Styling** | CSS, MUI Base |
 
 ---
 
 ## ⚙️ Project Structure
-
-```bash
+```text
 chatapp-project/
 ├── chatapp-client/             # Frontend (React)
 │   ├── public/                 # Static files (favicon, index.html)
@@ -48,46 +50,43 @@ chatapp-project/
 │       ├── App.js              # Main app component
 │       └── index.js            # ReactDOM entry point
 ├── server/                     # Backend (Node.js + Socket.IO)
-│   ├── Controllers/            # Business logic (chat.controller.js, etc.)
+│   ├── Controllers/            # Chat business logic
 │   ├── Models/                 # Data structures or DB logic
-│   ├── server.js               # Main Socket.IO server setup
+│   ├── server.js               # Socket.IO server setup
 │   └── user.controller.js      # User-related socket logic
 ├── package.json                # Project metadata and scripts
 └── README.md                   # Project documentation
 ```
 
 ## 🧠 App Flow
-
-1. On load, user is prompted to enter a nickname via `prompt()`.
-2. `login` event is emitted via **Socket.IO** to register the user.
-3. User is shown a list of available chat rooms.
+1. On load, user is prompted to enter a nickname (`prompt()`).
+2. The client emits a `login` event to register the user.
+3. The app fetches a list of available chat rooms.
 4. Clicking a room navigates to `/room/:id`.
-5. On room join:
-   - `joinRoom` event is emitted to the server
-   - Server acknowledges and sends a system message to the room
-6. Messages are sent via `sendMessage` and broadcast to all room members.
+5. When joining a room:
+   - Client emits a `joinRoom` event.  
+   - Server acknowledges and sends a **system message** to the room.  
+   - Messages are sent via `sendMessage` and broadcast to all connected clients.
 
 ---
 
 ## ⚠️ Known Limitations / To-Do
-
-- 🔐 No real authentication (only nickname prompt)
-- 🧼 No persistent storage (in-memory only)
-- ➕ Add room creation feature (currently hardcoded or static)
-- 🖼 UI could be enhanced with better design system (e.g., TailwindCSS or full MUI)
+- 🔐 No real authentication (nickname only)  
+- 🌸 No persistent storage (messages are in-memory)  
+- ➕ Add **room creation** feature (currently static)  
+- 🖼️ Improve UI with **TailwindCSS** or full **MUI design system**  
+- 💾 Optional: Connect to **MongoDB** for persistent chat history  
 
 ---
 
 ## 📝 License
-
-**MIT License**  
-Feel free to use, modify, and contribute!
+MIT License  
+Feel free to **use, modify, and contribute!**
 
 ---
 
 ## 🙌 Acknowledgements
-
-Made this project using **React**, **Socket.IO**, and **Node.js**.
+Built with ❤️ using **React**, **Socket.IO**, and **Node.js**.
 
 ---
 
