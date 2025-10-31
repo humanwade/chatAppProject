@@ -1,13 +1,15 @@
 {
   "name": "chatappproject",
   "version": "1.0.0",
-  "description": "",
+  "description": "Real-time Chat Application (React + Node + Socket.IO)",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "deploy": "cd chatapp-client && npm run build && cd .. && pm2 restart chatApp"
   },
   "keywords": [],
-  "author": "",
+  "author": "Seounghoon Jung",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
