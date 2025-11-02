@@ -1,2 +1,6 @@
-.env.env
+# Environment variables
+.env
+*.env
+
+# Archives
 *.tar.gz
