@@ -18,8 +18,19 @@ module.exports = function (io) {
             cb({ ok: true, data: user });
         });
 
-        socket.on("joinRoom", async (roomName, cb) => {
+        socket.on("joinRoom", async (roomName, password, cb) => {
+            if (typeof password === "function") {
+                cb = password;
+                password = undefined;
+            }
+            const safeCb = typeof cb === "function" ? cb : () => {};
+
             try {
+                const passwordOk = await roomController.checkPassword(roomName, password);
+                if (!passwordOk) {
+                    return safeCb({ ok: false, error: "Invalid password." });
+                }
+
                 const user = await userController.checkUser(socket.id);
 
                 await socket.join(roomName);
@@ -34,10 +45,10 @@ module.exports = function (io) {
                 };
                 io.to(roomName).emit("message", enterMsg);
 
-                cb({ ok: true });
+                safeCb({ ok: true });
             } catch (err) {
                 console.error("joinRoom error:", err);
-                cb({ ok: false, error: err.message });
+                safeCb({ ok: false, error: err.message });
             }
         });
 
