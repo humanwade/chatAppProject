@@ -3,6 +3,28 @@ import Peer from "simple-peer";
 import socket from "../../server";
 import "./VideoCall.css";
 
+const ICE_SERVERS = [
+  { urls: "stun:stun.l.google.com:19302" },
+  { urls: "stun:stun1.l.google.com:19302" },
+];
+
+// Optional TURN server for harder networks (mobile, CGNAT, etc.)
+// Set these in chatapp-client/.env (NOT the server .env), e.g.:
+//   REACT_APP_TURN_URL=turn:your-domain-or-ip:3478
+//   REACT_APP_TURN_USERNAME=youruser
+//   REACT_APP_TURN_PASSWORD=yourpass
+if (
+  process.env.REACT_APP_TURN_URL &&
+  process.env.REACT_APP_TURN_USERNAME &&
+  process.env.REACT_APP_TURN_PASSWORD
+) {
+  ICE_SERVERS.push({
+    urls: process.env.REACT_APP_TURN_URL,
+    username: process.env.REACT_APP_TURN_USERNAME,
+    credential: process.env.REACT_APP_TURN_PASSWORD,
+  });
+}
+
 const VideoTile = ({ stream, label, muted }) => {
   const ref = useRef(null);
   const initial = (label && label[0]) ? label[0].toUpperCase() : "?";
@@ -75,6 +97,7 @@ export default function VideoCall({ open, roomName, user, onClose }) {
       initiator,
       trickle: true,
       stream: streamOrNull || undefined,
+      config: { iceServers: ICE_SERVERS },
     });
 
     peer.on("signal", (signal) => {
