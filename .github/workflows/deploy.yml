@@ -19,14 +19,13 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          # Cloudflare 터널을 통한 SSH 접속 설정
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519  # 파일명 변경
+          chmod 600 ~/.ssh/id_ed25519
           cat >> ~/.ssh/config <<EOF
           Host ${{ secrets.HOST }}
             ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h
             User ${{ secrets.USERNAME }}
-            IdentityFile ~/.ssh/id_rsa
+            IdentityFile ~/.ssh/id_ed25519  # 파일명 변경
             StrictHostKeyChecking no
           EOF
 
