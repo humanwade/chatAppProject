@@ -9,11 +9,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const mongoUri = process.env.MONGO_URI || process.env.DB;
+if (!mongoUri) {
+  throw new Error(
+    "Missing MongoDB URI. Set MONGO_URI (recommended) or DB in your .env file."
+  );
+}
+
 mongoose
-  .connect(process.env.DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(mongoUri)
   .then(() => console.log("connected to database"))
   .catch((err) => console.error("Mongo connect error:", err));
 

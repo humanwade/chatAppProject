@@ -31,8 +31,8 @@
 .your-message-container {
   display: flex;
   justify-content: flex-start;
-  /* margin-bottom: 5px; */
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 8px;
 }
 
 .your-message {
@@ -41,6 +41,17 @@
   padding: 8px;
   max-width: 200px;
   font-size: 12px;
+}
+
+.your-message-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.your-message-name {
+  font-size: 11px;
+  color: #555;
+  margin-bottom: 2px;
 }
 
 .profile-image {

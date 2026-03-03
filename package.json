@@ -2,16 +2,17 @@
   "name": "chatappproject",
   "version": "1.0.0",
   "description": "Real-time Chat Application (React + Node + Socket.IO)",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "deploy": "cd chatapp-client && npm run build && cd .. && npx pm2 restart chatApp"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "deploy": "node scripts/deploy.js"
   },
   "keywords": [],
   "author": "Seounghoon Jung",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

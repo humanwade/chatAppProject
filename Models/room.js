@@ -12,6 +12,11 @@ const roomSchema = new mongoose.Schema(
       type: String,
       default: null, 
     },
+    participantsCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   {
     timestamps: true, 

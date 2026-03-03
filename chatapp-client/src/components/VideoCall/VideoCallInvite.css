@@ -1,0 +1,73 @@
+.vc-invite-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.vc-invite-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.vc-invite-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.vc-invite-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.vc-invite-text {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.vc-invite-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.vc-invite-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  min-width: 100px;
+}
+
+.vc-invite-decline {
+  background: #e5e5e5;
+  color: #333;
+}
+
+.vc-invite-decline:hover {
+  background: #d0d0d0;
+}
+
+.vc-invite-join {
+  background: #2d7d46;
+  color: white;
+}
+
+.vc-invite-join:hover {
+  background: #247038;
+}

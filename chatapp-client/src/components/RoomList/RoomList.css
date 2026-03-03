@@ -13,6 +13,53 @@
     background-color: white;
 }
 
+.room-create {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 10px;
+    background-color: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.room-input {
+    padding: 10px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+}
+
+.room-input:focus {
+    border-color: rgba(237, 71, 71, 0.6);
+}
+
+.room-create-btn {
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(237, 71, 71);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.room-create-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.room-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 6px;
+    font-size: 12px;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.7);
+}
+
 
 .room-list {
     display: flex;
