@@ -45,7 +45,7 @@ const MessageContainer = ({
                       aria-label="Delete message"
                       onClick={handleDelete}
                     >
-                      삭제
+                      Delete
                     </button>
                   ) : null}
                 </div>
@@ -61,7 +61,7 @@ const MessageContainer = ({
                       aria-label="Delete message"
                       onClick={handleDelete}
                     >
-                      삭제
+                      Delete
                     </button>
                   ) : null}
                 </div>
@@ -84,7 +84,7 @@ const MessageContainer = ({
                         aria-label="Delete message"
                         onClick={handleDelete}
                       >
-                        삭제
+                        Delete
                       </button>
                     ) : null}
                   </div>
