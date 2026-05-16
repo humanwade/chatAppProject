@@ -1,7 +1,9 @@
 const { createServer } = require("http");
+const path = require("path");
 const app = require("./app");
 const { Server } = require("socket.io");
-require("dotenv").config();
+// Always load repo-root .env (not chatapp-client/.env) so ADMIN_PASSWORD etc. apply to this server.
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 const initRooms = require("./Utils/initRooms");
 require("./Models/room");
 

@@ -1,7 +1,18 @@
+const crypto = require("crypto");
 const chatController = require("../Controllers/chat.controller");
 const userController = require("../Controllers/user.controller");
 const roomController = require("../Controllers/room.controller");
 const Room = require("../Models/room");
+
+const GUIDELINES_ROOM_NAME = "Guidelines";
+
+function timingSafeEqualString(a, b) {
+    if (typeof a !== "string" || typeof b !== "string") return false;
+    const bufA = Buffer.from(a, "utf8");
+    const bufB = Buffer.from(b, "utf8");
+    if (bufA.length !== bufB.length) return false;
+    return crypto.timingSafeEqual(bufA, bufB);
+}
 
 module.exports = function (io) {
     const getRoomSocketCount = async (roomName) => {
@@ -129,6 +140,27 @@ module.exports = function (io) {
             }
         });
 
+        socket.on("verifyGuidelinesAdmin", (secret, cb) => {
+            const safeCb = typeof cb === "function" ? cb : () => {};
+            try {
+                const expected = process.env.ADMIN_PASSWORD;
+                if (!expected || typeof secret !== "string") {
+                    socket.data.canPostGuidelines = false;
+                    return safeCb({ ok: false, error: "암호가 올바르지 않습니다." });
+                }
+                if (!timingSafeEqualString(secret.trim(), expected.trim())) {
+                    socket.data.canPostGuidelines = false;
+                    return safeCb({ ok: false, error: "암호가 올바르지 않습니다." });
+                }
+                socket.data.canPostGuidelines = true;
+                safeCb({ ok: true });
+            } catch (err) {
+                console.error("verifyGuidelinesAdmin error:", err);
+                socket.data.canPostGuidelines = false;
+                safeCb({ ok: false, error: "암호가 올바르지 않습니다." });
+            }
+        });
+
         socket.on("leaveRoom", async (cb) => {
             try {
                 const user = await userController.checkUser(socket.id);
@@ -159,13 +191,33 @@ module.exports = function (io) {
         });
 
         socket.on("sendMessage", async (message, cb) => {
+            const safeCb = typeof cb === "function" ? cb : () => {};
             try {
                 const user = await userController.checkUser(socket.id);
+                if (user.room === GUIDELINES_ROOM_NAME && !socket.data.canPostGuidelines) {
+                    return safeCb({ ok: false, error: "관리자만 입력할 수 있습니다." });
+                }
                 const newMessage = await chatController.saveChat(message, user);
                 io.to(user.room).emit("message", newMessage);
-                cb({ ok: true });
+                safeCb({ ok: true });
             } catch (error) {
-                cb({ ok: false, error: error.message });
+                safeCb({ ok: false, error: error.message });
+            }
+        });
+
+        socket.on("deleteMessage", async (messageId, cb) => {
+            const safeCb = typeof cb === "function" ? cb : () => {};
+            try {
+                const user = await userController.checkUser(socket.id);
+                const guidelinesAdmin =
+                    user.room === GUIDELINES_ROOM_NAME && Boolean(socket.data.canPostGuidelines);
+                const deleted = await chatController.deleteChatById(messageId, user, {
+                    guidelinesAdmin,
+                });
+                io.to(deleted.room).emit("messageDeleted", { _id: String(deleted._id) });
+                safeCb({ ok: true });
+            } catch (error) {
+                safeCb({ ok: false, error: error.message });
             }
         });
 

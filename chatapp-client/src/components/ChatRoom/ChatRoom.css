@@ -31,3 +31,142 @@ nav {
     font-size: 20px;
     font-weight: 500;
 }
+
+/* Extra bottom space when Guidelines strip sits above the composer */
+.App--guidelines-locked .message-wrapper {
+    height: calc(100vh - 140px - 52px);
+}
+
+/* Fixed strip above the 50px composer so it is not covered by .input-area */
+.guidelines-post-strip {
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 28rem;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
+    background: rgba(255, 255, 255, 0.97);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+    z-index: 15;
+}
+
+.guidelines-post-strip-text {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    color: #333;
+    text-align: center;
+}
+
+.guidelines-post-strip-btn {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid #1976d2;
+    border-radius: 8px;
+    background: #e3f2fd;
+    color: #0d47a1;
+    cursor: pointer;
+}
+
+.guidelines-post-strip-btn:hover {
+    background: #bbdefb;
+}
+
+.guidelines-admin-modal-root {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.guidelines-admin-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+}
+
+.guidelines-admin-modal-panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 22rem;
+    padding: 20px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+}
+
+.guidelines-admin-modal-title {
+    margin: 0 0 10px 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.guidelines-admin-modal-desc {
+    margin: 0 0 14px 0;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: #444;
+}
+
+.guidelines-admin-modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.guidelines-admin-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.guidelines-admin-btn {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.guidelines-admin-btn--primary {
+    flex: 1;
+    min-width: 120px;
+    background: #1976d2;
+    color: #fff;
+}
+
+.guidelines-admin-btn--primary:hover {
+    background: #1565c0;
+}
+
+.guidelines-admin-btn--ghost {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.guidelines-admin-btn--ghost:hover {
+    background: #e0e0e0;
+}

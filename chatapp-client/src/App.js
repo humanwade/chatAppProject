@@ -5,6 +5,12 @@ import "./webrtcPolyfills";
 import socket from "./server";
 import RoomList from "./components/RoomList/RoomList";
 import ChatRoom from "./components/ChatRoom/ChatRoom";
+import {
+  GUIDELINES_ROOM_NAME,
+  getStoredGuidelinesAdminPassword,
+  setStoredGuidelinesAdminPassword,
+  clearStoredGuidelinesAdminPassword,
+} from "./guidelinesAdmin";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -116,6 +122,39 @@ function ChatWrapper({ user, setCurrentRoom }) {
   const navigate = useNavigate();
   const [messageList, setMessageList] = useState([]);
   const [message, setMessage] = useState("");
+  const [guidelinesCanPost, setGuidelinesCanPost] = useState(false);
+
+  const isGuidelines = roomName === GUIDELINES_ROOM_NAME;
+
+  useEffect(() => {
+    if (!isGuidelines) {
+      setGuidelinesCanPost(false);
+      return;
+    }
+
+    const tryAutoVerify = () => {
+      const pwd = getStoredGuidelinesAdminPassword();
+      if (!pwd) {
+        setGuidelinesCanPost(false);
+        return;
+      }
+      socket.emit("verifyGuidelinesAdmin", pwd, (res) => {
+        if (res?.ok) {
+          setGuidelinesCanPost(true);
+        } else {
+          setGuidelinesCanPost(false);
+          clearStoredGuidelinesAdminPassword();
+        }
+      });
+    };
+
+    socket.on("connect", tryAutoVerify);
+    if (socket.connected) tryAutoVerify();
+
+    return () => {
+      socket.off("connect", tryAutoVerify);
+    };
+  }, [isGuidelines, roomName]);
 
   useEffect(() => {
     const attemptJoin = (password) => {
@@ -147,19 +186,57 @@ function ChatWrapper({ user, setCurrentRoom }) {
       setMessageList(history);
     });
 
+    const onMessageDeleted = ({ _id }) => {
+      setMessageList((prev) => prev.filter((m) => String(m._id) !== String(_id)));
+    };
+    socket.on("messageDeleted", onMessageDeleted);
+
     return () => {
       socket.off("message");
       socket.off("chatHistory");
+      socket.off("messageDeleted", onMessageDeleted);
     };
   }, [roomName, location, navigate, setCurrentRoom]);
 
+  const verifyGuidelinesWithSecret = (secret) => {
+    const s = typeof secret === "string" ? secret.trim() : "";
+    if (!s) {
+      alert("암호를 입력하세요.");
+      return;
+    }
+    socket.emit("verifyGuidelinesAdmin", s, (res) => {
+      if (res?.ok) {
+        setStoredGuidelinesAdminPassword(s);
+        setGuidelinesCanPost(true);
+      } else {
+        clearStoredGuidelinesAdminPassword();
+        alert(res?.error || "관리자만 입력할 수 있습니다.");
+      }
+    });
+  };
+
   const sendMessage = (e) => {
     e.preventDefault();
+    if (isGuidelines && !guidelinesCanPost) {
+      alert("관리자만 입력할 수 있습니다.");
+      return;
+    }
     socket.emit("sendMessage", message, (res) => {
       if (res.ok) {
         setMessage("");
       } else {
         console.error("Send message error:", res.error);
+        alert(res?.error || "전송에 실패했습니다.");
+      }
+    });
+  };
+
+  const requestDeleteMessage = (messageId) => {
+    if (!messageId) return;
+    if (!window.confirm("이 메시지를 삭제할까요?")) return;
+    socket.emit("deleteMessage", messageId, (res) => {
+      if (!res?.ok) {
+        alert(res?.error || "삭제에 실패했습니다.");
       }
     });
   };
@@ -173,6 +250,9 @@ function ChatWrapper({ user, setCurrentRoom }) {
       message={message}
       setMessage={setMessage}
       sendMessage={sendMessage}
+      guidelinesCanPost={guidelinesCanPost}
+      onGuidelinesVerify={verifyGuidelinesWithSecret}
+      onDeleteMessage={requestDeleteMessage}
     />
   );
 }

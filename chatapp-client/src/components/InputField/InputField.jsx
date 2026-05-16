@@ -3,7 +3,15 @@ import { Input } from "@mui/base/Input";
 import { Button } from "@mui/base/Button";
 import "./InputField.css";
 
-const InputField = ({ message, setMessage, sendMessage, onVideoCall }) => {
+const InputField = ({
+  message,
+  setMessage,
+  sendMessage,
+  onVideoCall,
+  inputLocked = false,
+  onLockedInteraction,
+  onRequestGuidelinesUnlock,
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -43,17 +51,31 @@ const InputField = ({ message, setMessage, sendMessage, onVideoCall }) => {
               </div>
             ) : null}
           </div>
-          <form onSubmit={sendMessage} className="input-container">
+          <form
+            onSubmit={sendMessage}
+            className={`input-container${inputLocked ? " input-container--locked" : ""}`}
+            onPointerDown={(e) => {
+              if (!inputLocked) return;
+              const t = e.target;
+              if (t && t.closest && t.closest(".plus-wrapper")) return;
+              if (typeof onRequestGuidelinesUnlock === "function") {
+                onRequestGuidelinesUnlock();
+                return;
+              }
+              if (typeof onLockedInteraction === "function") onLockedInteraction();
+            }}
+          >
             <Input
-              placeholder="Type in here…"
+              placeholder={inputLocked ? "Announcements only" : "Type in here…"}
               value={message}
               onChange={(event) => setMessage(event.target.value)}
               multiline={false}
               rows={1}
+              disabled={inputLocked}
             />
 
             <Button
-              disabled={message === ""}
+              disabled={inputLocked || message === ""}
               type="submit"
               className="send-button"
             >
