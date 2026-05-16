@@ -33,9 +33,18 @@ jobs:
         run: |
           ssh ${{ secrets.HOST }} << 'EOF'
             cd ~/apps/chat
-            # 로컬 변경사항을 강제로 초기화하고 가져오도록 수정
             git fetch origin main
             git reset --hard origin/main
+            
+            # 1. 서버 의존성 설치
             npm install
+            
+            # 2. 클라이언트 빌드 (이 부분이 추가되었습니다)
+            cd chatapp-client
+            npm install
+            npm run build
+            
+            # 3. 다시 루트로 돌아와서 서버 재시작
+            cd ..
             pm2 restart chatApp
           EOF
