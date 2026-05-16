@@ -32,7 +32,7 @@ jobs:
       - name: Execute Remote Commands
         run: |
           ssh ${{ secrets.HOST }} << 'EOF'
-            cd ~/chatAppProject
+            cd ~/apps/chat
             # 로컬 변경사항을 강제로 초기화하고 가져오도록 수정
             git fetch origin main
             git reset --hard origin/main
