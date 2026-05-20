@@ -16,3 +16,6 @@ yarn-error.log*
 
 # Archives
 *.tar.gz
+
+# Technical documentation
+WADECHAT_TECHNICAL_ARCHIVE.md
